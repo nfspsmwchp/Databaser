@@ -1,0 +1,444 @@
+List hele tabellen (og med alle kolonnene), sortert fra de største til de minste landene målt i antall innbyggere.
+1a)	SELECT *
+	FROM world
+	ORDER BY population DESC;
+
+
+Hent landene som ligger i Europa. Kun landsnavn og innbyggertall skal være med. Det skal være sortert alfabetisk på landsnavn.
+ b)	SELECT name, population
+	FROM world
+	WHERE continent = 'Europe'
+	ORDER BY name;
+
+
+Hent ut alle land som ligger i Europa som har over 50 millioner mennesker, sortert fra de største til de minste. Landsnavn og innbyggertall skal med.
+ c)	SELECT name, population
+	FROM world
+	WHERE continent = 'Europe' AND population > 50000000
+	ORDER BY population DESC;
+
+
+Hent ut navn på alle land i Europa, bortsett fra landene Norge, Sverige og Danmark. Hint: en mulig løsning inneholder bl.a. where …=……. and name <> «Norway» and name <> «Swe….. .
+ d)	SELECT name
+	
+FROM world
+
+	WHERE name <> 'Norway' AND name <> 'Sweden' AND name <> 'Denmark'
+;
+
+
+En annen løsning er noe med where ……. = ….. and not (name = «Norway» or name = «Swed NB! Pass på parenteser her!
+ e)	SELECT name 
+
+	FROM world
+
+	WHERE name = name AND NOT(name = 'Norway' OR name = 'Sweden' OR name = 'Denmark')
+;
+
+
+(fortsatt at du har lært in) Finn en enklere løsning enn i forrige, og hvor du bruker in.
+ f)	SELECT name
+	
+FROM world
+
+	WHERE name NOT IN('Norway','Sweden','Denmark')
+;
+
+
+Hent ut alle land som ligger i Asia som har over 99 millioner mennesker.
+ g)	SELECT name
+	FROM world
+	WHERE continent = 'Asia' AND population > 99000000;
+
+
+Hent ut navn, befolkningstetthet (personer pr. km2) og gjennomsnittlig nasjonalprodukt pr. innbygger for hvert land i Europa. Utskriften skal ha alle tre kolonnene på samme rad. De «fattigste» landene skal først.
+ h)	SELECT name, population / area, gdp
+	FROM world
+	WHERE continent = 'Europe'
+	ORDER BY gdp ASC;
+
+
+Som over (dvs. kun Europa), men sortert slik at de med høyest befolkningstetthet kommer øverst.
+ i)	SELECT name, population / area, gdp
+	FROM world
+	WHERE continent = 'Europe'
+	ORDER BY population/area DESC;
+
+
+Skriv ut alt om landene Norge og Danmark.
+ j)	SELECT *
+	
+FROM world
+	
+WHERE name = 'Denmark' OR name = 'Norway';
+
+
+Skriv ut alle kontinentene. (Men noen av de kommer jo mange ganger(!!), se neste spørsmål)
+ k) 	SELECT continent
+	FROM world;
+
+
+Som over, men hvert kontinent skal bare skrives ut en gang.
+ l)	SELECT distinct continent
+
+	FROM world;
+
+
+
+Skriv ut alle land i Amerika. (Hint: se resultatet fra forrige). Kom gjerne med flere ulike løsninger, bl.a. en hvor du bruker in.
+ m)	SELECT name 
+	FROM world
+	WHERE continent IN('South America', 'North America');
+
+
+Hvilke land mangler beskrivelse av antall mennesker i landet?
+ n) 	SELECT name
+	FROM world
+	WHERE population IS NULL;
+
+
+Hvilke land mangler beskrivelse av enten areal, innbyggertall eller brutto nasjonalprodukt?
+ o) 	SELECT name, population, area, gdp
+	FROM world
+	WHERE area IS NULL or population IS NULL or gdp IS NULL;
+
+
+Vis navn og befolkning i antall millioner for landene i Afrika. Hint: divider med 1 mill.
+ p) 	SELECT name, population / 1000000 
+	FROM world
+	WHERE continent = 'Africa';
+
+
+Som over, men tallet skal befolkningen i millioner skal skrives med en desimal. Hint: bruk round(<tall>, 1).
+ q) 	SELECT name, ROUND(population,1)
+	FROM world
+	WHERE continent = 'Africa';
+
+
+Hva er feil med Select * from world where population = NULL og Select * from world where population <> NULL? Formuler disse så det blir riktig.
+ r) 	Det er viktig å huske denne regelen fordi NULL ikke er en verdi, derfor kan den heller ikke bli sammenlignet med en annen verdi
+	'=' og '<>' er jo en måte på å sammenligne verdier.
+
+
+
+
+
+
+Her bruker vi tutorial 3, om nobelprisvinnere.
+
+
+Finn nobelprivinnere i kjemi, sortert slik at de som fikk prisen første kommer øverst.
+2a) 	SELECT winner
+	FROM nobel
+	WHERE subject = 'Chemistry'
+	ORDER BY yr;
+
+
+Finn nobelprisvinnere som har navn som begynner på samme forbokstav som navnet ditt (hvis navnet ditt begynner på Æ,Ø,Å velger hhv. E,O,A i stedet).
+ b)	SELECT winner
+	FROM nobel
+	WHERE subject = 'Chemistry' AND winner LIKE 'M%';
+
+
+Finn nobelprisvinnere som er «Sir « (i starten av navnet), og hvor navnet slutter på «son». Ha gjerne to forskjellige alternativ.
+ c) 	SELECT winner
+	FROM nobel
+	WHERE winner LIKE 'Sir%' AND winner LIKE '%son';
+
+
+Finn nobelprisvinnere som er «Sir « (i starten av navnet), eller har et navn som slutter på «son».
+ d) 	SELECT winner
+	FROM nobel
+	WHERE winner LIKE 'Sir%' OR winner LIKE '%son';
+
+
+Finn nobelprisvinner som har et navn som inneholder «von» som selvstendig del av navnet, f.eks. Ole von Nes. Hvis von finnes, men ikke som en selvstendig del av navnet, f.eks. Ole Vonlaus, skal det ikke være med.
+ e) 	SELECT winner
+	FROM nobel
+	WHERE (winner LIKE 'von %' OR winner LIKE '% von' OR winner LIKE '% von %' OR winner = 'von');
+
+
+Hvilke priser (typer) finnes? De skal vises bare en gang
+ f) 	SELECT distinct subject
+	FROM nobel;
+
+
+
+
+
+Hvilke priser (typer) finnes? De skal vises bare en gang
+3a) 	SELECT name, population, area
+	FROM world
+	WHERE name = 'Norway' OR name = 'Sweden' OR name = 'Denmark';
+
+
+Kan gjøres på en annen måte enn du gjorde i forrige oppgave. Bruk in-operatoren.
+ b) 	SELECT name, population, area
+	FROM world
+	WHERE name IN('Norway', 'Sweden', 'Denmark');
+
+
+Hvilke land bor det mellom 4 og 8 millioner eller over 100000000 mennesker i? Oppgi navn og befolkning. Bruk between.
+ c) 	SELECT name, population
+	FROM world 
+	WHERE (population BETWEEN 4000000 AND 8000000) OR population > 100000000;
+
+
+Som over, men uten between.
+ d) 	SELECT name, population
+	FROM world 
+	WHERE population >= 4000000 AND population <= 8000000 OR population > 100000000;
+
+
+Hent ut land i Europa og Asia har mindre enn 10 mill mennesker. Bruk ikke Between
+ e) 	SELECT name, population
+	FROM world
+	WHERE (continent = 'Europe' OR 'Asia') AND population <10000000;
+
+
+Hent ut land i Asia og Europa som har mindre enn 10 mill mennesker, dessuten alle land i Afrika. Lag en variant med IN, en uten.
+ f) 	MED IN
+
+	SELECT name, continent, population/10000000
+	FROM world
+	WHERE (continent IN('Europe', 'Asia') AND population < 10000000) OR continent = 'Africa'
+
+	UTEN UN
+
+	SELECT name, continent, population/10000000
+	FROM world
+	WHERE (continent = 'Europe' OR 'Asia' AND population < 10000000) OR continent = 'Africa';
+
+
+Finn hvilke land i Europa som har flere innbyggere enn Norge, uten å vite hvor mange innbyggere som finnes I Norge.
+Landsnavn og innbyggertall skal med, og det skal sorteres på minkende innbyggertall.
+NB! Spørring i spørring, noe med select … where … > (select ….). Denne er vanskelig
+ g) 	SELECT name, population
+	FROM world
+	WHERE population > 
+	(SELECT population
+	FROM world 
+	WHERE name = 'Norway')
+	ORDER BY population DESC;
+
+
+Finn hvilke land som ligger i samme verdensdel som Australia og Kuba / Cuba? 
+Dette skal du finne ut uten å vite hvilken verdensdel Australia og Kuba ligger i.
+NB! Her må du bruke select ... where continent in (select continent ...). NB! Denne er vanskelig.
+ h) 	SELECT name, continent 
+	FROM world
+	WHERE continent = 
+	(SELECT continent
+	FROM world
+	WHERE name = 'Cuba' OR 'Australia');
+
+
+Hvorfor går det ikke med name = (select name …)? (Referer til punkt h)
+ i) 	Fordi vi plukker ut navn på første selecten, også sammenligner vi continenten med navnet på en annen continent
+
+
+Hva gjør setningen:
+select * 
+from world 
+where continent = 'Africa' and (name like 'M%' or name like '%M')?
+ j) 	Den plukker ut alle colonner fra tabellen world hvor continenten er Africa og (starter med M eller slutter med M)
+
+
+Omform denne setningen slik at du ikke bruker parentes (til gjengjeld blir setningen lenger). (Dette kalles en omforming ved å bruke den distributive lov).
+ k) 	SELECT *
+	FROM world
+	AND OR AND
+	WHERE continent = 'Africa' AND name like 'M%' OR continent='Africa' AND name like '%M';
+
+
+Lag deretter SQL-varianten av denne, og kjør den på nytt. Får du samme resultat?
+ l) 	Denne ble gjort i oppgave k
+
+
+Hva gjør denne setningen? SELECT name FROM world WHERE NOT (continent='Europe' OR continent='Africa')
+ m) 	Plukk ut name colonnen fra tabellen world hvor continenten ikke er 'Europa' eller 'Africa'
+
+
+Dette kan omformes slik at du bruker <> (ekvivalent: !=) og AND i stedet. Dette kalles omforming ved Bruk deMorgans lover for å omforme dette uttrykket
+ n) 	SELECT name 
+	FROM world
+	WHERE continent <> 'Europe' AND continent <> 'Africa';
+
+
+Lag tilsvarende SQL-setning – kjør den på nytt og sjekk om du får det samme som over.
+Du kan gjerne i sluttfasen forandre f.eks. not continent = ‘Africa’ til continent <> Africa.
+ o) 	SELECT name 
+	FROM world
+	WHERE not continent = 'Europe' OR 'Africa';
+
+
+
+
+
+Kjør disse setningene – dette blir forberedelse til videre forelesninger. Hva gjør de (1-2 linjers forklaring)?
+
+
+SELECT SUM(population) FROM world;
+4a) 	Plukk ut summen av population fra tabellen world, altså totale populasjonen i world tabellen.
+
+
+SELECT count(population) FROM world;
+ b) 	Plukk ut hvor mange populationer som er registrert i world tabellen
+
+
+SELECT COUNT(*) FROM world;
+ c) 	Plukk ut hvor mange registreringer det finnes i world tabellen
+
+
+SELECT continent, COUNT(*), sum(population),
+FROM world 
+GROUP by continent;
+ d) 	Plukk ut continent og gjennomsnittlig population fra tabellen world. Grupper deretter etter continent
+
+
+SELECT continent, avg(population),
+FROM world
+GROUP by continent;
+ e) 	Plukk ut continent og gjennomsnittet av population fra tabellen world 
+
+
+SELECT max(population) 
+FROM world
+ f) 	Plukk ut høyeste verdi av population av alle registrerte inputs, altså høyeste befolkning
+
+
+SELECT name, max(population) FROM world blir feil. Hvorfor?
+ g) 	Fordi det du prøver å få ut gir ingen mening. Du prøver å plukke ut name og høyeste verdi av population fra
+        tabellen world. 
+
+SELECT name, population 
+FROM world 
+where population in (Select max(population) from world) Hva gjør denne? Forklar hvorfor det blir korrekt.
+ h) 	Den plukker ut navnet på landet som har høyest befolkning. Hvis du leser koden linje for linje gir den
+	mye mer mening enn den forrige koden. 
+
+
+
+
+
+
+Det følgende er en datamodell med bl.a. prosjekter og ansatte og hvilke prosjekter de er med på,
+samt et PlanlagtTimetall (det antall timer vi regner med at den enkelte har planlagt å bruke på dette prosjektet).
+Et reelt system her naturligvis utrolig mye mer med enn dette!
+
+
+Lag CREATE TABLE-setninger for å opprette disse tabellene. Legg inn primærnøkler sammen med CREATE-table-setningen.
+Sett NOT NULL der det er naturlig.
+5a) 	CREATE TABLE `Prosjekt` (
+ 
+	`Prosjektnr` INT NOT NULL,
+
+	`Prosjektnavn` VARCHAR(45) NULL,
+
+	 PRIMARY KEY (`Prosjektnr`)
+	)
+
+	CREATE TABLE `Ansatt` (
+
+	`Ansattnr` INT NOT NULL,
+  
+	`Etternavn` VARCHAR(45) NULL,
+	
+`Fornavn` VARCHAR(45) NULL,
+	 PRIMARY KEY (`Ansattnr`)
+	)
+
+	CREATE TABLE `ProsjektAnsatt` (
+
+	`Prosjektnr` INT NOT NULL,
+
+	`Ansattnr` INT NOT NULL,
+
+	`PlanlagtTimetall` INT NULL,
+
+	 PRIMARY KEY (`Prosjektnr`, `Ansattnr`
+	)
+	
+
+Legg til ALTER TABLE-setninger for å legge inn fremmednøkler.
+ b)	ALTER TABLE ProsjektAnsatt
+	ADD FOREIGN KEY (Ansattnr)
+	REFERENCE Ansatt(Ansattnr)
+
+	ADD FOREIGN KEY (Prosjektnr)
+	REFERENCE PROSJEKT(Prosjektnr)
+
+
+Prosjektnavn skal dessuten være unikt. Lag en ALTER TABLE for å få til dette.
+ c)	ALTER TABLE Prosjekt ADD UNIQUE (Prosjektnavn)
+
+
+Legg inn minimum 5 rader i hver av tabellene (via INSERT-setninger). 
+Et par av prosjektene skal det ikke være medarbeidere på enda. 
+d)	INSERT INTO Prosjekt 
+    	(Prosjektnr, Prosjektnavn)
+	
+	 VALUES
+    	 (1, Prosjekt A),
+   	 (2, Prosjekt B),
+   	 (3, Prosjekt C),
+   	 (4, Prosjekt D),
+   	 (5, Prosjekt E);
+
+
+	INSERT INTO Ansatt 
+    	(Ansattnr, Etternavn, Fornavn)
+	
+	 VALUES
+    	 (195,Olsen,Ole),
+   	 (632,Hansen,Hans),
+   	 (235,Berg,Anders),
+   	 (523,Jørgensen,Per),
+   	 (253,Fjell,Lars);
+	
+
+	INSERT INTO ProsjektAnsatt 
+    	(PlanlagtTimetall)
+	
+	 VALUES
+    	 (25),
+   	 (62),
+   	 (53),
+   	 (43),
+   	 (55);
+
+
+Kobl sammen data fra de 3 tabellene som er nevnt over ved å sette betingelser i WHERE-setningen. Du får neppe med alle data fra alle tabeller. Kommenter!
+ e)	
+select Fornavn, Etternavn, ProsjektAnsatt.Ansattnr, Prosjektnavn, ProsjektAnsatt.Prosjektnr
+from Prosjekt, Ansatt, ProsjektAnsatt
+where Ansatt.Ansattnr = ProsjektAnsatt.Ansattnr
+and Prosjekt.Prosjektnr = ProsjektAnsatt.Prosjektnr
+
+
+ f) 
+select Fornavn, Etternavn, ProsjektAnsatt.Ansattnr, Prosjektnavn, ProsjektAnsatt.Prosjektnr
+from Prosjekt, Ansatt, ProsjektAnsatt
+
+du kan ikke plukke ut informasjon fra tabeller uten å koble dem sammen
+
+
+ g)
+select Prosjektnavn, Prosjekt.Prosjektnr
+from ProsjektMedarbeider inner join Prosjekt on ProsjektMedarbeider.Prosjektnr = Prosjekt.Prosjektnr
+
+
+ h)
+select Prosjektnavn, Prosjekt.Prosjektnr
+from ProsjektMedarbeider left outer join Prosjekt on ProsjektMedarbeider.Prosjektnr = Prosjekt.Prosjektnr
+
+
+ i)
+Ikkematchende for null. Det vil si at alt som ikke blir matcha for ingen verdi 
+
+
+
+6) Jeg brukte totalt litt over 17 timer tror jeg, men jeg har ikke akkurat telt opp timene jeg har brukt for å gjør ferdig obligen
+
+
+
